@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bakery Online System - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e9c674;
+      background-image: url('login_pic.jpeg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      color: #3d2a01;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 3rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+      width: 350px;
+      background-color: #ebdbb8d9;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      margin: 60px auto;
+      text-align: center;
+    }
+
+    .toggle-btns {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .toggle-btns button {
+      padding: 8px 15px;
+      background-color: #e2d2a5;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #4a3504;
+      cursor: pointer;
+    }
+
+    .toggle-btns button.active {
+      background-color: #5e4303;
+      color: white;
+    }
+
+    .login-section {
+      display: none;
+    }
+
+    .login-section.active {
+      display: block;
+    }
+
+    .login-form input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 90%;
+      border: 1px solid #4a3504;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .login-form button {
+      padding: 12px;
+      background-color: #5e4303;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      width: 95%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-form button:hover {
+      background-color: #3d2a01;
+    }
+
+    .newcustomer {
+      margin-top: 15px;
+    }
+
+    .newcustomer a {
+      color: #4a3504;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .newcustomer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 90%;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Gandhi's Thilaga Bakery</h1>
+
+  <div class="container">
+    <div class="toggle-btns">
+      <button id="userBtn" class="active" onclick="toggleLogin('user')">User</button>
+      <button id="adminBtn" onclick="toggleLogin('admin')">Admin</button>
+    </div>
+
+    <!-- User Login -->
+    <div id="userLogin" class="login-section active">
+      <h2>User Login</h2>
+      <form action="user-login.php" method="POST" class="login-form">
+        <input type="text" name="username" placeholder="👤 Username" required />
+        <input type="password" name="password" placeholder="🔒 Password" required />
+        <button type="submit">Login as User</button>
+      </form>
+      <div class="newcustomer">
+        <p>New Customer? <a href="register.html">Register here</a></p>
+      </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminLogin" class="login-section">
+      <h2>Admin Login</h2>
+      <form action="admin-login.php" method="POST" class="login-form">
+        <input type="text" name="username" placeholder="👤 Admin Username" required />
+        <input type="password" name="password" placeholder="🔒 Password" required />
+        <button type="submit">Login as Admin</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleLogin(role) {
+      const userBtn = document.getElementById('userBtn');
+      const adminBtn = document.getElementById('adminBtn');
+      const userLogin = document.getElementById('userLogin');
+      const adminLogin = document.getElementById('adminLogin');
+
+      if (role === 'user') {
+        userBtn.classList.add('active');
+        adminBtn.classList.remove('active');
+        userLogin.classList.add('active');
+        adminLogin.classList.remove('active');
+      } else {
+        adminBtn.classList.add('active');
+        userBtn.classList.remove('active');
+        adminLogin.classList.add('active');
+        userLogin.classList.remove('active');
+      }
+    }
+  </script>
+
+</body>
+</html>

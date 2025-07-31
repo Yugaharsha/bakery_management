@@ -1,52 +1,37 @@
 <?php
-session_start();
+include 'db.php';
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bakery";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = trim($_POST['first_name']);
-    $last_name = trim($_POST['last_name']);
-    $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Validate input
-    if (empty($first_name) || empty($last_name) || empty($phone) || empty($address) || empty($password) || empty($confirm_password)) {
-        die("All fields are required!");
-    }
-
+    // Check if passwords match
     if ($password !== $confirm_password) {
-        die("Passwords do not match!");
+        echo "<script>alert('Passwords do not match'); window.history.back();</script>";
+        exit();
     }
 
     // Hash the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert data into the database
-    $sql = "INSERT INTO customers (first_name, last_name, phone, address, password) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $first_name, $last_name, $phone, $address, $hashed_password);
+    // Check if username or email exists
+    $check_sql = "SELECT * FROM users WHERE username='$username' OR email='$email'";
+    $check_result = mysqli_query($conn, $check_sql);
 
-    if ($stmt->execute()) {
-        echo "Registration successful!";
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>alert('Username or Email already exists'); window.history.back();</script>";
     } else {
-        echo "Error: " . $conn->error;
+        // Insert new user
+        $insert_sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$hashed_password')";
+        if (mysqli_query($conn, $insert_sql)) {
+            echo "<script>alert('Registration successful! You can now login'); window.location='login.html';</script>";
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
     }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
 }
 ?>

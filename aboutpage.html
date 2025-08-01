@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Thilaga Bakery</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #f8f3e7;
+        color: #4a2c00;
+        line-height: 1.6;
+    }
+
+    header {
+        background-color: #6b3e09;
+        color: white;
+        padding: 15px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header .logo {
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+    nav a:hover {
+        color: #ffe1b3;
+    }
+
+    .about-container {
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    .about-container h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .about-container p {
+        font-size: 18px;
+        max-width: 700px;
+        margin: 0 auto 30px auto;
+    }
+
+    /* Why Choose Us */
+    .why-choose {
+        text-align: center;
+        padding: 40px 20px;
+        background: #fff8f0;
+    }
+
+    .why-choose h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .feature-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+        color: #6b3e09;
+    }
+
+    /* Gallery */
+    .gallery {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .gallery h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .gallery-images {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .gallery-images img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-images img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Call to Action */
+    .cta {
+        text-align: center;
+        padding: 50px 20px;
+        background: #6b3e09;
+        color: white;
+        border-radius: 20px;
+        margin: 40px auto;
+        max-width: 900px;
+    }
+
+    .cta h2 {
+        margin-bottom: 15px;
+        font-size: 2rem;
+    }
+
+    .cta a {
+        display: inline-block;
+        padding: 12px 25px;
+        background: #ffe1b3;
+        color: #6b3e09;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+
+    .cta a:hover {
+        background: #fff0d6;
+    }
+
+    /* Footer with Social Media */
+    footer {
+        text-align: center;
+        padding: 20px;
+        background: #170d01;
+        color: white;
+        margin-top: 40px;
+    }
+
+    .social-links a {
+        margin: 0 10px;
+        display: inline-block;
+        color: white;
+        font-size: 20px;
+        transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+        color: #ffe1b3;
+    }
+
+</style>
+<!-- FontAwesome for Social Media Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">🍰 Thilaga Bakery</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="Login_Page.html">Login</a>
+        <a href="about.html">About</a>
+    </nav>
+</header>
+
+<!-- About Section -->
+<div class="about-container">
+    <h1>Welcome to Thilaga Bakery</h1>
+    <p>Located in the heart of Madurai, Thilaga Bakery brings you the finest sweets, snacks, and freshly baked treats. Established with a passion for flavor and quality, we promise happiness in every bite!</p>
+</div>
+
+<!-- Why Choose Us -->
+<div class="why-choose">
+    <h2>Why Choose Us?</h2>
+    <div class="features">
+        <div class="feature-box">✔ Freshly Baked Daily</div>
+        <div class="feature-box">✔ Traditional Recipes</div>
+        <div class="feature-box">✔ Affordable Prices</div>
+        <div class="feature-box">✔ Friendly Service</div>
+    </div>
+</div>
+
+<!-- Gallery -->
+<div class="gallery">
+    <h2>Our Specialties</h2>
+    <div class="gallery-images">
+        <img src="assets\images\bakeryphoto.webp" alt="Cake">
+        <img src="assets\images\thilaga2.webp" alt="Cupcake">
+        <img src="assets\images\images.jpg" alt="Pastry">
+        <img src="assets\images\images (1).jpg" alt="Sweets">
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="cta">
+    <h2>Ready to Taste Happiness?</h2>
+    <a href="menu.html">Order Online Now →</a>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>Address: No. 10, Puttu Thoppu Rd & Arappalayam Cross Rd, Madurai, Tamil Nadu 625016 | Phone: 0452 236 1134</p>
+    <p>Hours: 9 am–10:30 pm (Sunday: 9:30 am–9 pm)</p>
+    <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+</footer>
+
+</body>
+</html>

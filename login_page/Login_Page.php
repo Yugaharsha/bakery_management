@@ -1,9 +1,34 @@
+<?php
+// Start the session (this is mandatory)
+session_start();
+
+// Prevent browser from caching the page
+header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
+header("Pragma: no-cache"); // HTTP 1.0
+header("Expires: 0"); // Proxies
+
+// Redirect if already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: ../cart_page/cus_dashboard.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Thilaga Bakery</title>
+<script>
+    // Detect if coming back using back button
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+            window.location.reload();
+        }
+    });
+</script>
+
 <!-- Font Awesome for Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
@@ -76,7 +101,7 @@
     /* Left Image */
     .image-section {
         flex: 1;
-        background: url('assets/images/login_pic.jpeg') no-repeat center center/cover;
+        background: url('../assets/images/login_pic.jpeg') no-repeat center center/cover;
         min-height: 400px;
     }
 
@@ -157,9 +182,9 @@
 <header>
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="aboutpage.html">About</a>
+        <a href="../index.html">Home</a>
+        <a href="../static_page/menu.html">Menu</a>
+        <a href="../static_page/aboutpage.html">About</a>
     </nav>
 </header>
 
@@ -172,13 +197,13 @@
     <!-- Form -->
     <div class="form-section">
         <h2>Welcome Back!</h2>
-        <form action="user-login.php" method="POST">
+        <form action="user-login.php" method="POST" autocomplete="off">
             <div class="input-box">
-                <input type="text" name="username" placeholder="Username" required>
+                <input type="text" name="username" placeholder="eg. FirstNameLastName" required autocomplete="off">
                 <i class="fas fa-user"></i>
             </div>
             <div class="input-box">
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" required autocomplete="off">
                 <i class="fas fa-lock"></i>
             </div>
             <button type="submit">Login</button>
@@ -188,6 +213,14 @@
         </form>
     </div>
 </div>
+<script>
+        // Clear inputs on load
+        window.onload = function() {
+            document.querySelector('input[name="username"]').value = '';
+            document.querySelector('input[name="password"]').value = '';
+        };
+    </script>
+
 
 </body>
 </html>

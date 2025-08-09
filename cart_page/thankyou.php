@@ -1,6 +1,5 @@
 <?php
-session_start();
-include 'db.php';
+include '../db.php';
 
 // Validate order_id
 if (!isset($_GET['order_id'])) {
@@ -42,7 +41,6 @@ while ($row = mysqli_fetch_assoc($itemQuery)) {
         padding: 15px 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .logo { font-size: 26px; font-weight: bold; display: flex; align-items: center; }
-    .logo img { width: 30px; margin-right: 8px; }
     nav a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
     nav a:hover { color: #ffd9a0; }
 
@@ -77,11 +75,27 @@ while ($row = mysqli_fetch_assoc($itemQuery)) {
     }
     .btn:hover { background: #4a2c00; }
 
+    footer {
+        background-color: #070605ff; color: #fff;
+        text-align: center; padding: 20px;
+        margin-top: 40px;
+        font-size: 14px;
+    }
+    footer p { margin: 5px 0; }
+    footer .contact-info { font-size: 16px; margin-top: 10px; color:white }
+    footer .social-icons a {
+        color: white; margin: 0 8px; text-decoration: none;
+        font-size: 18px; transition: color 0.3s;
+    }
+    footer .social-icons a:hover { color: #ffd9a0; }
+
     @media (max-width: 768px) {
         .container { margin: 20px; padding: 20px; }
         table th, table td { font-size: 14px; }
     }
 </style>
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <header>
@@ -123,5 +137,20 @@ while ($row = mysqli_fetch_assoc($itemQuery)) {
     <div class="total">Total Amount: ₹<?php echo $totalAmount; ?></div>
     <a href="cus_dashboard.php" class="btn">Go Back to Dashboard</a>
 </div>
+
+<!-- Footer Section -->
+<footer>
+    <p class="contact-info">&copy; <?php echo date("Y"); ?> Thilaga Bakery. All Rights Reserved.</p>
+    <p class="contact-info">
+        Address: No. 10, Puttu Thoppu Rd, Arappalayam, Madurai, Tamil Nadu - 625016<br>
+        Phone: +91 98765 43210 | Email: info@thilagabakery.com
+    </p>
+    <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+</footer>
+
 </body>
 </html>

@@ -1,10 +1,28 @@
 <?php
-session_start();
-include 'db.php';
+include '../db.php';
 
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: Login_Page.html");
+    header("Location: ../Login_page/Login_Page.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
+
+// ✅ Handle Add to Favorites (No Navigation)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+    $product_id = intval($_POST['product_id']);
+
+    // Check if already in favorites
+    $check_sql = "SELECT id FROM favorites WHERE user_id=$user_id AND product_id=$product_id";
+    $check_result = mysqli_query($conn, $check_sql);
+
+    if (mysqli_num_rows($check_result) == 0) {
+        $insert_sql = "INSERT INTO favorites (user_id, product_id) VALUES ($user_id, $product_id)";
+        mysqli_query($conn, $insert_sql);
+    }
+
+    // Redirect back to avoid resubmission
+    header("Location: cus_dashboard.php");
     exit();
 }
 
@@ -18,6 +36,13 @@ if ($result && mysqli_num_rows($result) > 0) {
         $products[] = $row;
     }
 }
+$favorites = [];
+$fav_sql = "SELECT product_id FROM favorites WHERE user_id = ".$_SESSION['user_id'];
+$fav_result = mysqli_query($conn, $fav_sql);
+while ($fav = mysqli_fetch_assoc($fav_result)) {
+    $favorites[] = $fav['product_id'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,10 +117,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 <header>
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="#">Profile</a>
-        <a href="logout.php">Logout</a>
+        <a href="../index.html">Home</a>
+        <a href="../static_page/menu.html">Menu</a>
+        <a href="../profile/profile.php">Profile</a>
+        <a href="../logout.php">Logout</a>
     </nav>
 </header>
 
@@ -106,44 +131,81 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <div class="dashboard-container">
     <!-- ✅ Products Section -->
-    <div class="menu-container">
-        <?php if (!empty($products)): ?>
-            <?php foreach ($products as $product): ?>
-                <div class="menu-item">
-    <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-    <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-    <p>₹<?php echo htmlspecialchars($product['price']); ?></p>
-    
-    <?php if ($product['stock'] > 0): ?>
-        <?php if ($product['stock'] <= 5): ?>
-            <p style="color:red; font-size:14px;">Only <?php echo $product['stock']; ?> left!</p>
-        <?php endif; ?>
-        <button onclick="addToCart('<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>)">Add to Cart</button>
+
+<div class="menu-container">
+    <?php if (!empty($products)): ?>
+        <?php foreach ($products as $product): ?>
+            <div class="menu-item">
+                <img src="../assets/images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" style="width:100%; height:180px; object-fit:cover; border-radius:10px;">
+
+                <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                <p>₹<?php echo htmlspecialchars($product['price']); ?></p>
+
+                <?php if ($product['stock'] > 0): ?>
+                    <?php if ($product['stock'] <= 5): ?>
+                        <p style="color:red; font-size:14px;">Only <?php echo $product['stock']; ?> left!</p>
+                    <?php endif; ?>
+                    <button onclick="addToCart('<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>)">Add to Cart</button>
+                <?php else: ?>
+                    <button disabled style="background: gray;">Out of Stock</button>
+                <?php endif; ?>
+
+                <!-- ❤️ Add to Favorites OR Indicate Already Added -->
+                <?php if (in_array($product['id'], $favorites)): ?>
+                    <button style="background:green; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">
+                        ❤️ Added to Favorites
+                    </button>
+                <?php else: ?>
+                   <form method="POST" style="margin-top:10px;">
+                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <button type="submit" style="background:#6b3e09; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">
+                    ❤️ Add to Favorites
+                    </button>
+                   </form>
+
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?> 
     <?php else: ?>
-        <button disabled style="background: gray;">Out of Stock</button>
+        <p>No products available right now!</p>
     <?php endif; ?>
 </div>
+<!-- ✅ Hidden Form -->
+<form id="checkoutForm" method="POST" action="cus_dashboard.php" style="display:none;">
+    <input type="hidden" name="cart" id="cartInput">
+    <input type="hidden" name="total" id="totalInput">
+</form>
 
-            <?php endforeach; ?> 
-        <?php else: ?>
-            <p>No products available right now!</p>
-        <?php endif; ?>
-    </div>
-
-    <!-- ✅ Cart Section -->
-    <div class="cart-section">
-        <h2>Your Cart</h2>
-        <div class="cart-items" id="cartItems"></div>
-        <div class="total">Total: ₹<span id="totalAmount">0</span></div>
-        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
-
-    </div>
+<!-- ✅ Proceed to Checkout Button -->
+<div class="cart-section">
+    <h2>Your Cart</h2>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="total">Total: ₹<span id="totalAmount">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
 </div>
 
 <script>
+
 let cart = {}; // Use object for unique items
 let total = 0;
 
+function checkout() {
+    // Get cart items from JavaScript variable or DOM
+    let cartData = JSON.parse(localStorage.getItem('cart')) || {};  // Assuming cart stored in localStorage
+    let totalAmount = document.getElementById('totalAmount').innerText;
+
+    if (Object.keys(cartData).length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+
+    // Set values in hidden form
+    document.getElementById('cartInput').value = JSON.stringify(cartData);
+    document.getElementById('totalInput').value = totalAmount;
+
+    // Submit the form
+    document.getElementById('checkoutForm').submit();
+}
 function addToCart(name, price) {
     if (cart[name]) {
         cart[name].quantity++;

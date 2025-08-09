@@ -51,20 +51,25 @@ body {
     color: #5d4037;
 }
 
+/* Card Styles */
 .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    display: flex;
     gap: 20px;
     margin: 30px 0;
 }
 
 .card {
-    background: #fff3e0;
+    flex: 1;
     padding: 20px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #ffe6cc, #fff0e0);
+    border-radius: 12px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card .icon {
@@ -73,12 +78,27 @@ body {
     color: #503a33;
 }
 
+.card h3 {
+    font-size: 18px;
+    color: #612e09;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #b7684e;
+}
+
 .section {
     margin-top: 30px;
 }
 
 .section h2 {
-    color: #6d4c41;
+    color: #51280b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
@@ -91,6 +111,7 @@ body {
     margin-bottom: 8px;
     font-size: 16px;
 }
+
 .item-cards {
     display: flex;
     flex-wrap: wrap;
@@ -132,19 +153,19 @@ body {
 }
 
 .low {
-    background-color: #ffa726; /* orange */
+    background-color: #ffa726;
 }
 
 .very-low {
-    background-color: #ef5350; /* red */
+    background-color: #ef5350;
 }
 
 .delivered {
-    background-color: #66bb6a; /* green */
+    background-color: #66bb6a;
 }
 
 .pending {
-    background-color: #ffb74d; /* amber */
+    background-color: #ffb74d;
 }
 
 .warning {
@@ -154,6 +175,7 @@ body {
 .danger {
     border-left-color: #ef5350;
 }
+
 form label {
     font-weight: bold;
     color: #5d4037;
@@ -176,6 +198,25 @@ form button:hover {
     background-color: #8d4f3d;
 }
 
+/* Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
 
+.admin-table th {
+    background-color: #b7684e;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
 
+.admin-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
 
+.admin-table tr:nth-child(even) {
+    background-color: #fff5ec;
+}

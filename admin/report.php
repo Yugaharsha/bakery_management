@@ -38,7 +38,7 @@ $orders_status = mysqli_query($conn, $query_orders_status);
 <html>
 <head>
     <title>Reports - Bakery Management</title>
-    <link rel="stylesheet" href="admin_styles.css">
+    <link rel="stylesheet" href="admin_style.css">
 </head>
 <body>
 
@@ -46,9 +46,13 @@ $orders_status = mysqli_query($conn, $query_orders_status);
 <div class="sidebar">
     <h2>Admin Panel</h2>
     <ul>
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="orders.php">Orders</a></li>
-        <li><a href="reports.php" style="background:#b7684e;">Reports</a></li>
+         <li><a href="admin_dashboard.php">📊 Dashboard</a></li>
+            <li><a href="manage_products.php">🧁 Manage Products</a></li>
+            <li><a href="orders.php">🛒 Orders</a></li>
+            <li><a href="report.php">📈 Reports</a></li>
+            <li><a href="#">👥 Customers</a></li>
+            <li><a href="#">⚙️ Settings</a></li>
+            <li><a href="../logout.php">🚪 Logout</a></li>
     </ul>
 </div>
 

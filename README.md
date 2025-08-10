@@ -1,6 +1,3 @@
-Here’s your **Bakery Management System README** written in the same style as your Grocery Store Management System README, keeping everything clean and GitHub-ready.
-
----
 
 # 🍰 Bakery Management System
 
@@ -34,7 +31,7 @@ The system has **two primary roles**:
 
 ## Features
 
-### 🛠️ Admin
+###  Admin
 
 * Admin Dashboard with sales, orders, and inventory overview.
 * Manage Products:
@@ -53,7 +50,7 @@ The system has **two primary roles**:
 * Generate Sales Reports.
 * Store Settings and Profile Management.
 
-### 🛒 Customer
+###  Customer
 
 * Browse bakery products with images and prices.
 * Add products to cart and checkout.
@@ -164,9 +161,3 @@ For commercial inquiries, please contact:
 📧 **Harsha Vardhini K** – [harshavardhini1122@gmail.com](mailto:harshavardhini1122@gmail.com)
 
 ---
-
-**Thank you for using the Bakery Management System! 🍩 If you have any questions or feedback, feel free to open an issue or reach out.**
-
----
-
-If you want, I can also **add bakery-themed screenshots** in the README so that it looks professional and attractive for GitHub. That would make it match your theme perfectly.

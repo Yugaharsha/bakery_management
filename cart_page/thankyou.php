@@ -3,7 +3,7 @@ include '../db.php';
 
 // Validate order_id
 if (!isset($_GET['order_id'])) {
-    header("Location: cus_dashboard.php");
+    header("Location: ../cus_dashboard.php");
     exit();
 }
 
@@ -101,10 +101,10 @@ while ($row = mysqli_fetch_assoc($itemQuery)) {
 <header>
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="#">Profile</a>
-        <a href="logout.php">Logout</a>
+        <a href="../index.html">Home</a>
+        <a href="../static_page/menu.php">Menu</a>
+        <a href="../profile/profile.php">Profile</a>
+        <a href="../logout.php">Logout</a>
     </nav>
 </header>
 

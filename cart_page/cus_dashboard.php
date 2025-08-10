@@ -118,7 +118,7 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
         <a href="../index.html">Home</a>
-        <a href="../static_page/menu.html">Menu</a>
+        <a href="../static_page/menu.php">Menu</a>
         <a href="../profile/profile.php">Profile</a>
         <a href="../logout.php">Logout</a>
     </nav>

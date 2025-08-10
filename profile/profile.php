@@ -191,7 +191,7 @@ $fav_result = mysqli_query($conn, $fav_sql);
             <form action="update_profile.php" method="POST">
                 <input type="text" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" 
                        style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px;" required>
-                <input type="text" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>" 
+                <input type="text" name="Phone" value="<?php echo htmlspecialchars($user['phone']); ?>" 
                        style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px;" required>
                 <input type="text" name="address" value="<?php echo htmlspecialchars($user['address']); ?>" 
                        style="width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:6px;" required>
@@ -237,7 +237,7 @@ $fav_result = mysqli_query($conn, $fav_sql);
                     <?php while($fav = mysqli_fetch_assoc($fav_result)): ?>
                     <tr style="border-bottom:1px solid #ddd;">
                         <td style="padding:10px; text-align:center;">
-                            <img src="assets/images/<?php echo htmlspecialchars($fav['image']); ?>" 
+                            <img src="../assets/images/<?php echo htmlspecialchars($fav['image']); ?>" 
                                  alt="<?php echo htmlspecialchars($fav['name']); ?>" 
                                  style="width:60px; height:60px; border-radius:6px; object-fit:cover;">
                         </td>

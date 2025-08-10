@@ -1,22 +1,36 @@
 <?php
-
-include 'db.php';
+session_start();
+include '../db.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login_page/Login_Page.html");
+    header("Location: ../login_page/Login_Page.php");
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
-$username = mysqli_real_escape_string($conn, $_POST['username']);
-$phone = mysqli_real_escape_string($conn, $_POST['phone']);
-$address = mysqli_real_escape_string($conn, $_POST['address']);
+$user_id = intval($_SESSION['user_id']);  // user_id is integer, keep intval here
 
-$sql = "UPDATE users SET username='$username', phone='$phone', address='$address' WHERE id=$user_id";
+// Check if all required POST fields are present and not empty
+if (
+    empty($_POST['username']) ||
+    empty($_POST['Phone']) ||   // Phone as string, don't use intval here
+    empty($_POST['address'])
+) {
+    die("Please fill all required fields.");
+}
 
-if (mysqli_query($conn, $sql)) {
+$username = trim($_POST['username']);
+$phone = trim($_POST['Phone']);  // treat as string, no intval
+$address = trim($_POST['address']);
+
+// Prepare SQL statement to update user profile
+$stmt = $conn->prepare("UPDATE users SET username = ?, Phone = ?, address = ? WHERE id = ?");
+$stmt->bind_param("sssi", $username, $phone, $address, $user_id);
+
+if ($stmt->execute()) {
+    $stmt->close();
     header("Location: profile.php?success=Profile updated successfully");
+    exit();
 } else {
-    echo "Error: " . mysqli_error($conn);
+    echo "Error updating profile: " . htmlspecialchars($stmt->error);
 }
 ?>

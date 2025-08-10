@@ -1,10 +1,19 @@
+<?php
+include '../db.php';  // your database connection
+
+// Fetch products from DB
+$sql = "SELECT name, price, image FROM products ORDER BY id ASC";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bakery Menu - Thilaga Bakery</title>
 <style>
+    /* Your existing CSS here */
     * {
         margin: 0;
         padding: 0;
@@ -17,7 +26,6 @@
         color: #4a2c00;
     }
 
-    /* Header */
     header {
         width: 100%;
         background-color: #6b3e09;
@@ -50,7 +58,6 @@
         color: #ffe1b3;
     }
 
-    /* Page Heading */
     .page-title {
         text-align: center;
         font-size: 36px;
@@ -59,7 +66,6 @@
         color: #6b3e09;
     }
 
-    /* Menu Grid */
     .menu-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -103,7 +109,6 @@
         transform: translateY(-10px);
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
         .page-title {
             font-size: 28px;
@@ -113,59 +118,38 @@
 </head>
 <body>
 
-<!-- Header -->
 <header>
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
         <a href="../index.html">Home</a>
-        <a href="menu.html">Menu</a>
+        <a href="menu.php">Menu</a>
         <a href="../static_page/aboutpage.html">About Us</a>
         <a href="#">Contact</a>
         <a href="../login_page/Login_Page.php">Sign In</a>
     </nav>
 </header>
 
-<!-- Page Title -->
 <div class="page-title">Our Delicious Menu</div>
 
-<!-- Menu Grid -->
 <div class="menu-container">
-    <!-- Menu Item -->
-    <div class="menu-item">
-        <img src="../assets/images/chocolate_cake.jpeg" alt="Chocolate Cake">
-        <h3>Chocolate Cake</h3>
-        <p>₹350</p>
-    </div>
+    <?php
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Make sure image path is correct relative to this file
+            $imagePath = htmlspecialchars($row['image']);
+            $name = htmlspecialchars($row['name']);
+            $price = number_format($row['price'], 2); // format price with 2 decimals
 
-    <div class="menu-item">
-        <img src="../assets\images\vanilla_cupcake.jpeg" alt="Vanilla Cupcake">
-        <h3>Vanilla Cupcake</h3>
-        <p>₹50</p>
-    </div>
-
-    <div class="menu-item">
-        <img src="../assets\images\RedVelvetCake.jpeg" alt="Red Velvet Cake">
-        <h3>Red Velvet Cake</h3>
-        <p>₹400</p>
-    </div>
-
-    <div class="menu-item">
-        <img src="../assets\images\cookies.jpeg" alt="Cookies">
-        <h3>Fresh Cookies</h3>
-        <p>₹150</p>
-    </div>
-
-    <div class="menu-item">
-        <img src="../assets\images\Bread.jpeg" alt="Bread Loaf">
-        <h3>Bread Loaf</h3>
-        <p>₹70</p>
-    </div>
-
-    <div class="menu-item">
-        <img src="../assets\images\donuts.jpeg" alt="Donut">
-        <h3>Chocolate Donut</h3>
-        <p>₹60</p>
-    </div>
+            echo '<div class="menu-item">';
+            echo '<img src="../assets/images/' . $imagePath . '" alt="' . $name . '">';
+            echo '<h3>' . $name . '</h3>';
+            echo '<p>₹' . $price . '</p>';
+            echo '</div>';
+        }
+    } else {
+        echo '<p style="text-align:center; color:#6b3e09;">No items found in the menu.</p>';
+    }
+    ?>
 </div>
 
 </body>

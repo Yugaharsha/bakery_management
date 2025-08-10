@@ -183,7 +183,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="logo">🍰 Thilaga Bakery</div>
     <nav>
         <a href="../index.html">Home</a>
-        <a href="../static_page/menu.html">Menu</a>
+        <a href="../static_page/menu.php">Menu</a>
         <a href="../static_page/aboutpage.html">About</a>
     </nav>
 </header>

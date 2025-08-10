@@ -140,13 +140,13 @@ $products = mysqli_query($conn, "SELECT * FROM products");
 <div class="sidebar">
     <h2>🍰 Bakery Admin</h2>
     <ul>
-        <li><a href="admin_dashboard.php">📊 Dashboard</a></li>
-        <li><a href="manage_products.php">🧁 Manage Products</a></li>
-        <li><a href="orders.php">🛒 Orders</a></li>
-        <li><a href="report.php">📈 Reports</a></li>
-        <li><a href="#">👥 Customers</a></li>
-        <li><a href="#">⚙️ Settings</a></li>
-        <li><a href="../logout.php">🚪 Logout</a></li>
+            <li><a href="admin_dashboard.php">📊 Dashboard</a></li>
+            <li><a href="manage_products.php">🧁 Manage Products</a></li>
+            <li><a href="orders.php">🛒 Orders</a></li>
+            <li><a href="report.php">📈 Reports</a></li>
+            <li><a href="customer.php">👥 Customers</a></li>
+            <li><a href="admin_message.php">📩 Messages</a></li>
+            <li><a href="../logout.php">🚪 Logout</a></li>
     </ul>
 </div>
 

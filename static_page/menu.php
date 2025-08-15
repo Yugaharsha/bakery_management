@@ -124,7 +124,7 @@ $result = $conn->query($sql);
         <a href="../index.html">Home</a>
         <a href="menu.php">Menu</a>
         <a href="../static_page/aboutpage.html">About Us</a>
-        <a href="#">Contact</a>
+        <a href="contact.php">Contact</a>
         <a href="../login_page/Login_Page.php">Sign In</a>
     </nav>
 </header>

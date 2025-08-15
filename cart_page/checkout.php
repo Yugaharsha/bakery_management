@@ -1,5 +1,4 @@
 <?php
-
 include '../db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
@@ -36,8 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
         mysqli_query($conn, "UPDATE products SET stock='$newStock' WHERE id='$product_id'");
     }
 
-    // ✅ Send redirect URL
-    echo "thankyou.php?order_id=$order_id";
+    // ✅ Save order_id in session instead of URL
+    // After processing order
+    $_SESSION['last_order_id'] = $order_id;
+    header("Location: thankyou.php");
     exit();
 }
 ?>

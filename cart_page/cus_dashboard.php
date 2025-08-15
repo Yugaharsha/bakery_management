@@ -36,14 +36,16 @@ if ($result && mysqli_num_rows($result) > 0) {
         $products[] = $row;
     }
 }
+
+// Fetch user favorites
 $favorites = [];
 $fav_sql = "SELECT product_id FROM favorites WHERE user_id = ".$_SESSION['user_id'];
 $fav_result = mysqli_query($conn, $fav_sql);
 while ($fav = mysqli_fetch_assoc($fav_result)) {
     $favorites[] = $fav['product_id'];
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,8 +132,6 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
 </div>
 
 <div class="dashboard-container">
-    <!-- ✅ Products Section -->
-
 <div class="menu-container">
     <?php if (!empty($products)): ?>
         <?php foreach ($products as $product): ?>
@@ -150,7 +150,7 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
                     <button disabled style="background: gray;">Out of Stock</button>
                 <?php endif; ?>
 
-                <!-- ❤️ Add to Favorites OR Indicate Already Added -->
+                <!-- ❤️ Favorites -->
                 <?php if (in_array($product['id'], $favorites)): ?>
                     <button style="background:green; color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">
                         ❤️ Added to Favorites
@@ -162,7 +162,6 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
                     ❤️ Add to Favorites
                     </button>
                    </form>
-
                 <?php endif; ?>
             </div>
         <?php endforeach; ?> 
@@ -170,13 +169,8 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
         <p>No products available right now!</p>
     <?php endif; ?>
 </div>
-<!-- ✅ Hidden Form -->
-<form id="checkoutForm" method="POST" action="cus_dashboard.php" style="display:none;">
-    <input type="hidden" name="cart" id="cartInput">
-    <input type="hidden" name="total" id="totalInput">
-</form>
 
-<!-- ✅ Proceed to Checkout Button -->
+<!-- ✅ Cart Section -->
 <div class="cart-section">
     <h2>Your Cart</h2>
     <div class="cart-items" id="cartItems"></div>
@@ -185,27 +179,17 @@ while ($fav = mysqli_fetch_assoc($fav_result)) {
 </div>
 
 <script>
-
-let cart = {}; // Use object for unique items
+let cart = {}; // Cart object
 let total = 0;
 
-function checkout() {
-    // Get cart items from JavaScript variable or DOM
-    let cartData = JSON.parse(localStorage.getItem('cart')) || {};  // Assuming cart stored in localStorage
-    let totalAmount = document.getElementById('totalAmount').innerText;
-
-    if (Object.keys(cartData).length === 0) {
-        alert('Your cart is empty!');
-        return;
-    }
-
-    // Set values in hidden form
-    document.getElementById('cartInput').value = JSON.stringify(cartData);
-    document.getElementById('totalInput').value = totalAmount;
-
-    // Submit the form
-    document.getElementById('checkoutForm').submit();
+// ✅ Load cart from localStorage to persist on page reload
+if (localStorage.getItem('cart')) {
+    cart = JSON.parse(localStorage.getItem('cart'));
 }
+calculateTotal();
+displayCart();
+
+// ✅ Add to cart
 function addToCart(name, price) {
     if (cart[name]) {
         cart[name].quantity++;
@@ -214,17 +198,10 @@ function addToCart(name, price) {
     }
     calculateTotal();
     displayCart();
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save to localStorage
 }
 
-function removeFromCart(name) {
-    if (cart[name]) {
-        total -= cart[name].price * cart[name].quantity;
-        delete cart[name];
-    }
-    calculateTotal();
-    displayCart();
-}
-
+// ✅ Update quantity
 function updateQuantity(name, change) {
     if (cart[name]) {
         cart[name].quantity += change;
@@ -234,8 +211,10 @@ function updateQuantity(name, change) {
     }
     calculateTotal();
     displayCart();
+    localStorage.setItem('cart', JSON.stringify(cart)); // Save to localStorage
 }
 
+// ✅ Calculate total
 function calculateTotal() {
     total = 0;
     for (let item in cart) {
@@ -243,40 +222,64 @@ function calculateTotal() {
     }
 }
 
+// ✅ Display cart items
 function displayCart() {
     const cartContainer = document.getElementById('cartItems');
     cartContainer.innerHTML = '';
     for (let item in cart) {
         cartContainer.innerHTML += `
-            <div class="cart-item">
+            <div class="cart-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <span>${item}</span>
                 <span>₹${cart[item].price} x ${cart[item].quantity}</span>
-                <button onclick="updateQuantity('${item}', 1)" style="background:#6b3e09; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;">Add</button>
-                <button onclick="updateQuantity('${item}', -1)" style="background:#b02a2a; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;">Remove</button>
+                <div>
+                    <button onclick="updateQuantity('${item}', 1)" style="background:#6b3e09; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; margin-right:5px;">Add</button>
+                    <button onclick="updateQuantity('${item}', -1)" 
+                        style="background:#e07b5b; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; font-weight:bold; transition:0.3s;">
+                        Remove
+                    </button>
+                </div>
             </div>
         `;
     }
     document.getElementById('totalAmount').textContent = total.toFixed(2);
 }
 
-// ✅ Checkout - send cart & total to PHP
+// ✅ Checkout
 function checkout() {
     if (Object.keys(cart).length === 0) {
         alert('Your cart is empty!');
         return;
     }
 
-    fetch('checkout.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `cart=${encodeURIComponent(JSON.stringify(cart))}&total=${total}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        window.location.href = data; // PHP sends thankyou.php?order_id=xx
-    });
-}
-</script>
+    // Save cart to localStorage just in case
+    localStorage.setItem('cart', JSON.stringify(cart));
 
+    // Create and submit hidden form
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'checkout.php';
+
+    const cartInput = document.createElement('input');
+    cartInput.type = 'hidden';
+    cartInput.name = 'cart';
+    cartInput.value = JSON.stringify(cart);
+    form.appendChild(cartInput);
+
+    const totalInput = document.createElement('input');
+    totalInput.type = 'hidden';
+    totalInput.name = 'total';
+    totalInput.value = total.toFixed(2);
+    form.appendChild(totalInput);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // ✅ Clear cart from localStorage and JS
+    localStorage.removeItem('cart');
+    cart = {};
+    displayCart(); // Optional: refresh cart UI
+}
+
+</script>
 </body>
 </html>

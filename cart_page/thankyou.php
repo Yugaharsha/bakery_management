@@ -1,13 +1,12 @@
 <?php
 include '../db.php';
-
-// Validate order_id
-if (!isset($_GET['order_id'])) {
+// Validate last order
+if (!isset($_SESSION['last_order_id'])) {
     header("Location: ../cus_dashboard.php");
     exit();
 }
 
-$order_id = intval($_GET['order_id']);
+$order_id = $_SESSION['last_order_id'];
 
 // Fetch order details
 $orderQuery = mysqli_query($conn, "SELECT * FROM orders WHERE id = '$order_id'");
@@ -25,7 +24,11 @@ $items = [];
 while ($row = mysqli_fetch_assoc($itemQuery)) {
     $items[] = $row;
 }
+
+// ✅ Clear the session variable after use
+unset($_SESSION['last_order_id']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

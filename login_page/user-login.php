@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Step 1: Check in admin table
-    $admin_stmt = $conn->prepare("SELECT id, username, password FROM admin WHERE username = ?");
+    $admin_stmt = $conn->prepare("SELECT id, username, password, role FROM admin WHERE username = ?");
     $admin_stmt->bind_param("s", $username);
     $admin_stmt->execute();
     $admin_result = $admin_stmt->get_result();
@@ -20,8 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($admin_result->num_rows > 0) {
         $admin = $admin_result->fetch_assoc();
         if (password_verify($password, $admin['password'])) {
-            $_SESSION['admin_id'] = $admin['id'];
+            // ✅ Store session variables for admin
+            $_SESSION['admin_id']       = $admin['id'];
             $_SESSION['admin_username'] = $admin['username'];
+            $_SESSION['admin_role']     = $admin['role']; // <-- Added this line
+
             header("Location: ../admin/admin_dashboard.php");
             exit();
         } else {
@@ -39,8 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user_result->num_rows > 0) {
         $user = $user_result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_id']  = $user['id'];
             $_SESSION['username'] = $user['username'];
+
             header("Location: ../cart_page/cus_dashboard.php");
             exit();
         } else {

@@ -53,6 +53,7 @@ $orders_status = mysqli_query($conn, $query_orders_status);
             <li><a href="report.php">📈 Reports</a></li>
             <li><a href="customer.php">👥 Customers</a></li>
             <li><a href="admin_message.php">📩 Messages</a></li>
+            <li><a href="admin_manage.php">🧑‍🍳 Manage Admins</a></li>
             <li><a href="../logout.php">🚪 Logout</a></li>
     </ul>
 </div>

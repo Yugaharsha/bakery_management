@@ -57,6 +57,7 @@ $totalCustomers = $customerData['count'] ?? 0;
             <li><a href="report.php">📈 Reports</a></li>
             <li><a href="customer.php">👥 Customers</a></li>
             <li><a href="admin_message.php">📩 Messages</a></li>
+            <li><a href="admin_manage.php">🧑‍🍳 Manage Admins</a></li>
             <li><a href="../logout.php">🚪 Logout</a></li>
         </ul>
     </div>
@@ -112,26 +113,28 @@ $totalCustomers = $customerData['count'] ?? 0;
         </div>
 
         <div class="section">
-            <h2>🕓 Recent Orders</h2>
-            <div class="item-cards">
-                <?php if (mysqli_num_rows($recentOrdersResult) > 0): ?>
-                    <?php while ($order = mysqli_fetch_assoc($recentOrdersResult)) { ?>
-                        <div class="item-card">
-                            <span class="item-icon">📦</span>
-                            <div class="item-info">
-                                <strong>Order #<?= $order['id'] ?></strong>
-                                <div>₹<?= number_format($order['total_amount'], 2) ?></div>
-                                <span class="badge <?= strtolower($order['status']) === 'delivered' ? 'delivered' : 'pending' ?>">
-                                    <?= ucfirst($order['status']) ?>
-                                </span>
-                            </div>
+    <h2>🕓 Recent Orders</h2>
+    <div class="item-cards">
+        <?php if (mysqli_num_rows($recentOrdersResult) > 0): ?>
+            <?php while ($order = mysqli_fetch_assoc($recentOrdersResult)) { ?>
+                <a href="view_order.php?id=<?= $order['id'] ?>" style="text-decoration:none; color:inherit;">
+                    <div class="item-card">
+                        <span class="item-icon">📦</span>
+                        <div class="item-info">
+                            <strong>Order #<?= $order['id'] ?></strong>
+                            <div>₹<?= number_format($order['total_amount'], 2) ?></div>
+                            <span class="badge <?= strtolower($order['status']) === 'delivered' ? 'delivered' : 'pending' ?>">
+                                <?= ucfirst($order['status']) ?>
+                            </span>
                         </div>
-                    <?php } ?>
-                <?php else: ?>
-                    <p>No recent orders found.</p>
-                <?php endif; ?>
-            </div>
-        </div>
+                    </div>
+                </a>
+            <?php } ?>
+        <?php else: ?>
+            <p>No recent orders found.</p>
+        <?php endif; ?>
     </div>
+</div>
+
 </body>
 </html>

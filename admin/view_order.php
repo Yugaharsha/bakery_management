@@ -161,6 +161,7 @@ $items_result = mysqli_query($conn, $items_query);
             <li><a href="report.php">📈 Reports</a></li>
             <li><a href="customer.php">👥 Customers</a></li>
             <li><a href="admin_message.php">📩 Messages</a></li>
+            <li><a href="admin_manage.php">🧑‍🍳 Manage Admins</a></li>
             <li><a href="../logout.php">🚪 Logout</a></li>
     </ul>
 </div>

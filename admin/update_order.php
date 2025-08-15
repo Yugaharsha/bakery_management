@@ -1,5 +1,6 @@
 <?php
 include '../db.php';
+include '../auth_check.php';
 
 // ✅ Check if ID is passed in URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {

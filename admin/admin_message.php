@@ -1,24 +1,34 @@
 <?php
-// Database connection
-$mysqli = new mysqli("localhost", "root", "", "bakery_db");
+include '../db.php';
+include '../auth_check.php';
 
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
+// ✅ Ensure we have a database connection variable
+if (!isset($mysqli) && isset($conn)) {
+    $mysqli = $conn; // Fallback if db.php uses $conn instead of $mysqli
 }
 
-// Update status if admin clicks a button
+// If still no connection, stop execution
+if (!isset($mysqli) || !$mysqli) {
+    die("Database connection not found. Please check db.php");
+}
+
+// ✅ Update status if admin clicks a button
 if (isset($_GET['mark']) && isset($_GET['id'])) {
     $status = $_GET['mark'];
     $id = intval($_GET['id']);
+
     $stmt = $mysqli->prepare("UPDATE contact_messages SET status = ? WHERE id = ?");
-    $stmt->bind_param("si", $status, $id);
-    $stmt->execute();
-    $stmt->close();
+    if ($stmt) {
+        $stmt->bind_param("si", $status, $id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
     header("Location: admin_message.php");
     exit;
 }
 
-// Fetch all messages
+// ✅ Fetch all messages
 $result = $mysqli->query("SELECT * FROM contact_messages ORDER BY submitted_at DESC");
 ?>
 <!DOCTYPE html>

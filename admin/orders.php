@@ -1,6 +1,7 @@
 <?php
 // Include database connection
 include '../db.php';
+include '../auth_check.php';
 
 /*
    Fetch orders with customer details

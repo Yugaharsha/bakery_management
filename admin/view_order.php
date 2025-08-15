@@ -1,6 +1,6 @@
 <?php
 include '../db.php';
-
+include '../auth_check.php';
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     die("Invalid order ID");
 }

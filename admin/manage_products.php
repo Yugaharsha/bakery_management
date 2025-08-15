@@ -1,5 +1,6 @@
 <?php
 include '../db.php';
+include '../auth_check.php';
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: ../login_page/Login_Page.php");
